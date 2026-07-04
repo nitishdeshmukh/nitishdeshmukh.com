@@ -101,9 +101,9 @@ plans/
 | 006 | [Admin API Routes](./02-Backend-Core/006-admin-api-routes.md) | Admin CRUD & Upload endpoints | ✅ DONE |
 | 007 | [GitHub Contributions Proxy](./02-Backend-Core/007-github-contributions-proxy.md) | Cached proxy for GitHub graph | ✅ DONE |
 | 008 | [SEO Outputs](./02-Backend-Core/008-seo-outputs.md) | RSS, llms.txt, llms-full.txt | ✅ DONE |
-| 009 | PartyKit server (port 1999)         | 03-Realtime  | P1       | S      | —          | IN PROGRESS |
-| 010 | Real-time broadcast flow            | 03-Realtime  | P1       | M      | 006, 009   | TODO   |
-| 011 | Layout + floating dock (motion)     | 04-Public    | P0       | M      | 003        | TODO   |
+| 009 | PartyKit → Pusher (replaced) | 03-Realtime | P1 | S | — | ✅ DONE (Pusher) |
+| 010 | [Real-time broadcast flow](./03-Realtime/010-realtime-broadcast.md) | API → Pusher → Client | ✅ DONE |
+| 011 | [Layout + Floating Dock](./04-Frontend-Public/011-layout-navigation.md) | Root layout, dock, mobile nav | ✅ DONE |
 | 012 | Weather background                  | 04-Public    | P1       | L      | 011        | TODO   |
 | 013 | Home page — all sections (motion)   | 04-Public    | P0       | XL     | 005, 011   | TODO   |
 | 014 | Blog (MDX + shiki)                  | 04-Public    | P0       | L      | 005, 011   | TODO   |
