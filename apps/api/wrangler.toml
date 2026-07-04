@@ -19,3 +19,8 @@ database_id = "adc18aa4-27dd-47e3-b0fb-554474c73bd5"
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"
 bucket_name = "nitishdeshmukh-assets"
+
+[observability.logs]
+enabled = false
+invocation_logs = true
+
