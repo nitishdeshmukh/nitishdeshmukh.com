@@ -7,6 +7,7 @@ if (process.env.NODE_ENV === "development") {
 }
 const nextConfig: NextConfig = {
   /* config options here */
+  output: "standalone",
 };
 
 export default nextConfig;
