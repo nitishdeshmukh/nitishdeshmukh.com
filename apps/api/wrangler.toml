@@ -14,6 +14,7 @@ ALLOWED_ORIGINS = "https://nitishdeshmukh.com,https://admin.nitishdeshmukh.com,h
 binding = "DB"
 database_name = "nitish-portfolio"
 database_id = "adc18aa4-27dd-47e3-b0fb-554474c73bd5"
+migrations_dir = "../../packages/db/migrations"
 
 [[r2_buckets]]
 binding = "ASSETS_BUCKET"

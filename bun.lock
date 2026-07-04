@@ -41,6 +41,7 @@
       "dependencies": {
         "@workspace/db": "workspace:*",
         "@workspace/shared": "workspace:*",
+        "drizzle-orm": "^0.45.2",
         "hono": "^4.12.27",
       },
       "devDependencies": {
