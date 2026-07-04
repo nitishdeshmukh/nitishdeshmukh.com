@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import "@workspace/ui/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AudioProvider } from "@/context/audio-context";
+import { StickyPlayer } from "@/components/music/sticky-player";
 import { FloatingDock } from "@/components/navigation/floating-dock";
 import { MobileHeader } from "@/components/navigation/mobile-header";
 import { ScrollToTop } from "@/components/navigation/scroll-to-top";
@@ -69,20 +71,23 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* Dynamic weather background */}
-          <WeatherBackground />
+          <AudioProvider>
+            {/* Dynamic weather background */}
+            <WeatherBackground />
 
-          {/* Mobile navigation */}
-          <MobileHeader />
+            {/* Mobile navigation */}
+            <MobileHeader />
 
-          {/* Page content — padded bottom so floating dock doesn't overlap */}
-          <main className="pb-28">{children}</main>
+            {/* Page content — padded bottom so floating dock doesn't overlap */}
+            <main className="pb-28">{children}</main>
 
-          {/* Desktop floating dock */}
-          <FloatingDock />
+            {/* Desktop floating dock */}
+            <StickyPlayer />
+            <FloatingDock />
 
-          {/* Scroll to top */}
-          <ScrollToTop />
+            {/* Scroll to top */}
+            <ScrollToTop />
+          </AudioProvider>
         </ThemeProvider>
       </body>
     </html>

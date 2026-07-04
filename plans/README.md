@@ -110,7 +110,7 @@ plans/
 | 015 | [Projects archive](./04-Frontend-Public/015-projects-archive.md) | Grid, MDX detail page, URL tags | ✅ DONE |
 | 016 | [Guestbook (real-time + motion)](./04-Frontend-Public/016-guestbook.md) | Form, validation, SWR, Pusher hooks, motion animations | ✅ DONE |
 | 017 | [Meeting page (Cal.com)](./04-Frontend-Public/017-meeting-page.md) | Cal.com scheduling widget embed | ✅ DONE |
-| 018 | Music player                        | 04-Public    | P2       | M      | 005, 011   | TODO   |
+| 018 | [Music player](./04-Frontend-Public/018-music-player.md) | Audio tracks list, sticky global audio player | ✅ DONE |
 | 019 | SEO metadata                        | 04-Public    | P1       | S      | 013, 014   | TODO   |
 | 020 | Admin layout + secure proxy         | 05-Admin     | P0       | M      | 003        | TODO   |
 | 021 | Admin CRUD pages                    | 05-Admin     | P0       | XL     | 006, 020   | TODO   |

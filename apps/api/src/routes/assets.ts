@@ -27,6 +27,44 @@ assetsRoute.get("/:id/stream", async (c) => {
     return c.json({ error: "Asset metadata not found" }, 404);
   }
 
+  const rangeHeader = c.req.header("Range");
+
+  if (rangeHeader) {
+    const size = asset.sizeBytes || 0;
+    // Parse Range: bytes=0-1024
+    const parts = rangeHeader.replace(/bytes=/, "").split("-");
+    const start = parseInt(parts[0], 10);
+    const end = parts[1] ? parseInt(parts[1], 10) : size - 1;
+    
+    if (start >= size) {
+      return new Response(null, {
+        status: 416,
+        headers: { "Content-Range": `bytes */${size}` }
+      });
+    }
+
+    const length = end - start + 1;
+    
+    const object = await c.env.ASSETS_BUCKET.get(asset.fileKey, {
+      range: { offset: start, length }
+    });
+
+    if (!object) {
+      return c.json({ error: "File not found" }, 404);
+    }
+
+    return new Response(object.body, {
+      status: 206,
+      headers: {
+        "Content-Type": asset.mimeType,
+        "Accept-Ranges": "bytes",
+        "Content-Range": `bytes ${start}-${end}/${size}`,
+        "Content-Length": String(length),
+        "Cache-Control": "public, max-age=86400",
+      },
+    });
+  }
+
   const object = await c.env.ASSETS_BUCKET.get(asset.fileKey);
   
   if (!object) {
