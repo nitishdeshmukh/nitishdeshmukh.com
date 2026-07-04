@@ -7,15 +7,26 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "turbo format",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "db:generate": "turbo db:generate --filter=@workspace/db",
+    "db:migrate": "turbo db:migrate --filter=@workspace/db",
+    "db:seed": "turbo db:seed --filter=@workspace/db",
+    "deploy:api": "turbo run deploy --filter=api",
+    "deploy:web": "turbo run deploy --filter=web",
+    "deploy:admin": "turbo run deploy --filter=admin",
+    "deploy:party": "turbo run deploy --filter=party",
+    "deploy:all": "turbo run deploy"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
+    "@opennextjs/cloudflare": "^1.20.1",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "turbo": "^2.9.18",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.106.0"
   },
   "packageManager": "bun@1.3.14",
   "engines": {

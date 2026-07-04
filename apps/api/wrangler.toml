@@ -1,0 +1,21 @@
+name = "nitish-api"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+account_id = "a9374218e0d83ce555b45637269582f1"
+
+[vars]
+ALLOWED_ORIGINS = "https://nitishdeshmukh.com,https://admin.nitishdeshmukh.com,http://localhost:3000,http://localhost:3001"
+PARTYKIT_HOST = "nitish-party.partykit.dev"
+
+# Set via `bun run wrangler secret put API_SECRET` — never commit this value
+# API_SECRET = "..."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nitish-portfolio"
+database_id = "adc18aa4-27dd-47e3-b0fb-554474c73bd5"
+
+[[r2_buckets]]
+binding = "ASSETS_BUCKET"
+bucket_name = "nitishdeshmukh-assets"

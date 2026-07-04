@@ -1,0 +1,8 @@
+{
+  "name": "nitish-party",
+  "main": "src/server.ts",
+  "compatibilityDate": "2024-04-05",
+  "vars": {
+    "ALLOWED_ORIGINS": "https://nitishdeshmukh.com,https://admin.nitishdeshmukh.com,http://localhost:3000,http://localhost:3001"
+  }
+}
