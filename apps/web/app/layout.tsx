@@ -8,6 +8,7 @@ import { FloatingDock } from "@/components/navigation/floating-dock";
 import { MobileHeader } from "@/components/navigation/mobile-header";
 import { ScrollToTop } from "@/components/navigation/scroll-to-top";
 import { WeatherBackground } from "@/components/weather/weather-background";
+import { RealtimeProvider } from "@/providers/realtime-provider";
 import { cn } from "@workspace/ui/lib/utils";
 
 const inter = Inter({
@@ -71,23 +72,25 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AudioProvider>
-            {/* Dynamic weather background */}
-            <WeatherBackground />
+          <RealtimeProvider>
+            <AudioProvider>
+              {/* Dynamic weather background */}
+              <WeatherBackground />
 
-            {/* Mobile navigation */}
-            <MobileHeader />
+              {/* Mobile navigation */}
+              <MobileHeader />
 
-            {/* Page content — padded bottom so floating dock doesn't overlap */}
-            <main className="pb-28">{children}</main>
+              {/* Page content — padded bottom so floating dock doesn't overlap */}
+              <main className="pb-28">{children}</main>
 
-            {/* Desktop floating dock */}
-            <StickyPlayer />
-            <FloatingDock />
+              {/* Desktop floating dock */}
+              <StickyPlayer />
+              <FloatingDock />
 
-            {/* Scroll to top */}
-            <ScrollToTop />
-          </AudioProvider>
+              {/* Scroll to top */}
+              <ScrollToTop />
+            </AudioProvider>
+          </RealtimeProvider>
         </ThemeProvider>
       </body>
     </html>
