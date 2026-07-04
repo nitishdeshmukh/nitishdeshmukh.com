@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { apiClient } from "@/lib/api-client";
 import { DataTable } from "@/components/data-table";
 import { EntityDialog, FieldConfig } from "@/components/entity-dialog";
-import { createStackItemSchema } from "@workspace/shared/schemas/admin";
+import { createStackItemSchema } from "@workspace/shared/schemas";
 import { getColumns, StackItem } from "./columns";
 import { toast } from "sonner";
 import { Button } from "@workspace/ui/components/button";

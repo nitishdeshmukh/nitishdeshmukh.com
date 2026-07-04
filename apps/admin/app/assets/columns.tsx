@@ -12,30 +12,37 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
 
-export type Role = {
+export type Asset = {
   id: number;
   title: string;
-  order: number;
+  artist?: string;
+  fileKey: string;
+  mimeType: string;
+  sizeBytes?: number;
+  duration?: number;
   createdAt: string;
 };
 
 export const getColumns = (
-  onEdit: (role: Role) => void,
-  onDelete: (role: Role) => void
-): ColumnDef<Role>[] => [
+  onEdit: (item: Asset) => void,
+  onDelete: (item: Asset) => void
+): ColumnDef<Asset>[] => [
+  { accessorKey: "title", header: "Title" },
+  { accessorKey: "artist", header: "Artist" },
+  { accessorKey: "mimeType", header: "Type" },
   {
-    accessorKey: "order",
-    header: "Order",
-  },
-  {
-    accessorKey: "title",
-    header: "Title",
+    accessorKey: "sizeBytes",
+    header: "Size",
+    cell: ({ row }) => {
+      const size = row.original.sizeBytes;
+      if (!size) return "-";
+      return (size / 1024 / 1024).toFixed(2) + " MB";
+    }
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const role = row.original;
-
+      const item = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -46,13 +53,13 @@ export const getColumns = (
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => onEdit(role)}>
+            <DropdownMenuItem onClick={() => onEdit(item)}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => onDelete(role)}
+              onClick={() => onDelete(item)}
               className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
             >
               <Trash className="mr-2 h-4 w-4" />

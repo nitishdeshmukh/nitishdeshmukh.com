@@ -12,30 +12,36 @@ import {
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
 
-export type Role = {
+export type BlogPost = {
   id: number;
+  slug: string;
   title: string;
-  order: number;
+  excerpt: string;
+  tags?: string[];
+  readingTime?: number;
+  publishedAt?: string;
   createdAt: string;
 };
 
 export const getColumns = (
-  onEdit: (role: Role) => void,
-  onDelete: (role: Role) => void
-): ColumnDef<Role>[] => [
+  onEdit: (item: BlogPost) => void,
+  onDelete: (item: BlogPost) => void
+): ColumnDef<BlogPost>[] => [
+  { accessorKey: "title", header: "Title" },
+  { accessorKey: "slug", header: "Slug" },
   {
-    accessorKey: "order",
-    header: "Order",
-  },
-  {
-    accessorKey: "title",
-    header: "Title",
+    accessorKey: "publishedAt",
+    header: "Published At",
+    cell: ({ row }) => {
+      const val = row.original.publishedAt;
+      if (!val) return "Draft";
+      return new Date(val).toLocaleDateString();
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const role = row.original;
-
+      const item = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -46,13 +52,13 @@ export const getColumns = (
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => onEdit(role)}>
+            <DropdownMenuItem onClick={() => onEdit(item)}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => onDelete(role)}
+              onClick={() => onDelete(item)}
               className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
             >
               <Trash className="mr-2 h-4 w-4" />

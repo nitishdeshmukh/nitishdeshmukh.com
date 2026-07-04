@@ -4,8 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import { apiClient } from "@/lib/api-client";
 import { DataTable } from "@/components/data-table";
 import { EntityDialog, FieldConfig } from "@/components/entity-dialog";
-import { createSocialLinkSchema } from "@workspace/shared/schemas";
-import { getColumns, SocialLink } from "./columns";
+import { createAssetSchema } from "@workspace/shared/schemas";
+import { getColumns, Asset } from "./columns";
 import { toast } from "sonner";
 import { Button } from "@workspace/ui/components/button";
 import { Plus } from "lucide-react";
@@ -21,25 +21,27 @@ import {
 } from "@workspace/ui/components/alert-dialog";
 
 const fields: FieldConfig[] = [
-  { name: "platform", label: "Platform", type: "text", placeholder: "e.g., GitHub" },
-  { name: "url", label: "URL", type: "url", placeholder: "https://..." },
-  { name: "icon", label: "Icon Name (Lucide)", type: "text", placeholder: "e.g., Github" },
-  { name: "order", label: "Order", type: "number", placeholder: "0" },
+  { name: "title", label: "Title", type: "text" },
+  { name: "artist", label: "Artist", type: "text" },
+  { name: "fileKey", label: "File Key (R2 path)", type: "text" },
+  { name: "mimeType", label: "MIME Type", type: "text", placeholder: "audio/mpeg" },
+  { name: "sizeBytes", label: "Size (Bytes)", type: "number" },
+  { name: "duration", label: "Duration (seconds)", type: "number" },
 ];
 
-export default function SocialLinksPage() {
-  const [data, setData] = useState<SocialLink[]>([]);
+export default function AssetsPage() {
+  const [data, setData] = useState<Asset[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<SocialLink | null>(null);
+  const [editingItem, setEditingItem] = useState<Asset | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deletingItem, setDeletingItem] = useState<SocialLink | null>(null);
+  const [deletingItem, setDeletingItem] = useState<Asset | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await apiClient<SocialLink[]>("/api/admin/social-links");
+      const res = await apiClient<Asset[]>("/api/admin/assets");
       setData(res);
     } catch (error) {
-      toast.error("Failed to fetch social links");
+      toast.error("Failed to fetch assets");
     }
   }, []);
 
@@ -48,17 +50,17 @@ export default function SocialLinksPage() {
   const handleSubmit = async (values: any) => {
     try {
       if (editingItem) {
-        await apiClient(`/api/admin/social-links/${editingItem.id}`, {
+        await apiClient(`/api/admin/assets/${editingItem.id}`, {
           method: "PUT",
           body: JSON.stringify(values),
         });
-        toast.success("Social link updated");
+        toast.success("Asset updated");
       } else {
-        await apiClient("/api/admin/social-links", {
+        await apiClient("/api/admin/assets", {
           method: "POST",
           body: JSON.stringify(values),
         });
-        toast.success("Social link created");
+        toast.success("Asset metadata created");
       }
       fetchData();
     } catch (error: any) {
@@ -70,7 +72,7 @@ export default function SocialLinksPage() {
   const confirmDelete = async () => {
     if (!deletingItem) return;
     try {
-      await apiClient(`/api/admin/social-links/${deletingItem.id}`, { method: "DELETE" });
+      await apiClient(`/api/admin/assets/${deletingItem.id}`, { method: "DELETE" });
       toast.success("Deleted successfully");
       fetchData();
     } catch (error: any) {
@@ -85,11 +87,11 @@ export default function SocialLinksPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Social Links</h2>
-          <p className="text-muted-foreground">Manage links displayed in footer/nav</p>
+          <h2 className="text-2xl font-bold tracking-tight">Assets</h2>
+          <p className="text-muted-foreground">Manage your uploaded files and music</p>
         </div>
         <Button onClick={() => { setEditingItem(null); setDialogOpen(true); }}>
-          <Plus className="mr-2 h-4 w-4" /> Add Link
+          <Plus className="mr-2 h-4 w-4" /> Add Metadata Manually
         </Button>
       </div>
 
@@ -99,16 +101,16 @@ export default function SocialLinksPage() {
           (item) => { setDeletingItem(item); setDeleteDialogOpen(true); }
         )} 
         data={data} 
-        searchKey="platform" 
+        searchKey="title" 
       />
 
       <EntityDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        title="Social Link"
-        schema={createSocialLinkSchema}
+        title="Asset Metadata"
+        schema={createAssetSchema}
         fields={fields}
-        defaultValues={editingItem || { order: 0 }}
+        defaultValues={editingItem || {}}
         onSubmit={handleSubmit}
       />
 
@@ -117,12 +119,13 @@ export default function SocialLinksPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete "{deletingItem?.platform}".
+              This will permanently delete the metadata for "{deletingItem?.title}".
+              This does NOT automatically delete the file from R2.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-red-600">Delete</AlertDialogAction>
+            <AlertDialogAction onClick={confirmDelete} className="bg-red-600">Delete Metadata</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

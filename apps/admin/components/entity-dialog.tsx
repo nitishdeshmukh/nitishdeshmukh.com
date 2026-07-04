@@ -34,7 +34,7 @@ interface EntityDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
-  schema: z.ZodSchema<any>;
+  schema: any;
   fields: FieldConfig[];
   defaultValues?: any;
   onSubmit: (values: any) => Promise<void>;
