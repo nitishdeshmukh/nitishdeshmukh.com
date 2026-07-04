@@ -112,7 +112,7 @@ plans/
 | 017 | [Meeting page (Cal.com)](./04-Frontend-Public/017-meeting-page.md) | Cal.com scheduling widget embed | ✅ DONE |
 | 018 | [Music player](./04-Frontend-Public/018-music-player.md) | Audio tracks list, sticky global audio player | ✅ DONE |
 | 019 | [SEO metadata](./04-Frontend-Public/019-seo-metadata.md) | Sitemap, robots.txt, dynamic OG, JSON-LD schema | ✅ DONE |
-| 020 | Admin layout + secure proxy         | 05-Admin     | P0       | M      | 003        | TODO   |
+| 020 | [Admin layout + secure proxy](./05-Frontend-Admin/020-admin-layout.md) | Secure proxy pattern, shadcn sidebar layout | ✅ DONE |
 | 021 | Admin CRUD pages                    | 05-Admin     | P0       | XL     | 006, 020   | TODO   |
 | 022 | MDX editor (@mdx-js/mdx)            | 05-Admin     | P1       | L      | 021        | TODO   |
 | 023 | Asset upload UI                     | 05-Admin     | P1       | M      | 006, 020   | TODO   |
