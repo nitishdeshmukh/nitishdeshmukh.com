@@ -39,8 +39,24 @@ export default async function HomePage() {
       fetchJson("/api/github/contributions", { contributions: [], total: { lastYear: 0 } }),
     ]);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: profile.name,
+    url: "https://nitishdeshmukh.com",
+    jobTitle: profile.roles?.[0] ?? "Developer",
+    worksFor: {
+      "@type": "Organization",
+      name: "Self-Employed"
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* 1. Hero */}
       <Hero
         name={profile.name}

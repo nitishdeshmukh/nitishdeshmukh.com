@@ -59,8 +59,27 @@ export default async function BlogPostPage({
   const post = await getPost(slug);
   if (!post) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.coverUrl ? [post.coverUrl] : undefined,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    author: {
+      "@type": "Person",
+      name: "Nitish Deshmukh",
+      url: "https://nitishdeshmukh.com"
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-24 flex gap-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Main Content */}
       <article className="flex-1 min-w-0">
         <Link
