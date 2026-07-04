@@ -1,6 +1,30 @@
 {
   "name": "@workspace/db",
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "type": "module",
   "private": true,
-  "main": "index.ts"
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx src/seed.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260704.1",
+    "@types/better-sqlite3": "^7.6.13",
+    "@workspace/typescript-config": "workspace:*",
+    "better-sqlite3": "^12.11.1",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.23.0",
+    "typescript": "^6.0.3"
+  }
 }
