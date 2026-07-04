@@ -14,7 +14,6 @@
     "deploy:api": "turbo run deploy --filter=api",
     "deploy:web": "turbo run deploy --filter=web",
     "deploy:admin": "turbo run deploy --filter=admin",
-    "deploy:party": "turbo run deploy --filter=party",
     "deploy:all": "turbo run deploy"
   },
   "devDependencies": {

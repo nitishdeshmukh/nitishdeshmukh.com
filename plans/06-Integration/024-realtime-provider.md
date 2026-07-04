@@ -1,25 +1,31 @@
-# Plan 024: Real-Time Provider — WebSocket + SWR Invalidation
+# Plan 024: Real-Time Provider — Pusher + SWR Invalidation
 
 ## Status
 - **Priority**: P1 | **Effort**: M (3-5h) | **Risk**: MED
-- **Depends on**: 009 (PartyKit server) | **Phase**: 06-Integration
+- **Depends on**: 010 (Real-Time Broadcast Flow) | **Phase**: 06-Integration
 
 ## Objective (Kya)
 Create a React context provider for `apps/web` that:
-1. Connects to PartyKit WebSocket on mount
-2. Listens for `CONTENT_UPDATED` and `GUESTBOOK_NEW` messages
+1. Connects to Pusher WebSocket on mount
+2. Listens for `CONTENT_UPDATED` and `GUESTBOOK_NEW` events
 3. Automatically invalidates SWR cache for the affected entity
 4. Provides a `useRealtimeStatus()` hook showing connection state
 
 ## Timeline (Kab)
-After PartyKit server (009) exists. Blocks end-to-end real-time sync (025).
+After Pusher API broadcasts (010) exist. Blocks end-to-end real-time sync (025).
 
 ## Implementation Strategy (Kaise)
+
+### Install Dependencies
+```bash
+bun add pusher-js --filter=web
+bun add pusher-js --filter=admin
+```
 
 ### Provider architecture
 ```
 providers/
-└── realtime-provider.tsx       # React context + PartySocket connection
+└── realtime-provider.tsx       # React context + Pusher connection
 
 hooks/
 ├── use-realtime.ts             # useRealtimeStatus() hook
@@ -30,43 +36,40 @@ hooks/
 ```typescript
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import PartySocket from "partysocket";
+import { createContext, useContext, useEffect, useState } from "react";
+import Pusher from "pusher-js";
 import { useSWRConfig } from "swr";
 import type { WSMessage } from "@workspace/shared/types";
 
 interface RealtimeContextValue {
   isConnected: boolean;
-  connectionCount: number;
 }
 
 const RealtimeContext = createContext<RealtimeContextValue>({
   isConnected: false,
-  connectionCount: 0,
 });
 
 export function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const { mutate } = useSWRConfig();
   const [isConnected, setIsConnected] = useState(false);
-  const [connectionCount, setConnectionCount] = useState(0);
-  const wsRef = useRef<PartySocket | null>(null);
 
   useEffect(() => {
-    const ws = new PartySocket({
-      host: process.env.NEXT_PUBLIC_PARTYKIT_HOST || "localhost:1999",
-      room: "main",
+    // Enable pusher logging in dev only
+    if (process.env.NODE_ENV === "development") {
+      Pusher.logToConsole = true;
+    }
+
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY || "", {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || "",
     });
 
-    ws.addEventListener("open", () => setIsConnected(true));
-    ws.addEventListener("close", () => setIsConnected(false));
+    pusher.connection.bind("connected", () => setIsConnected(true));
+    pusher.connection.bind("disconnected", () => setIsConnected(false));
 
-    ws.addEventListener("message", (event) => {
-      const msg: WSMessage = JSON.parse(event.data);
+    const channel = pusher.subscribe("portfolio");
 
+    channel.bind("update", (msg: WSMessage) => {
       switch (msg.type) {
-        case "CONNECTED":
-          setConnectionCount(msg.connections);
-          break;
         case "CONTENT_UPDATED":
           // Invalidate SWR cache for the affected entity
           mutate(`/api/${msg.entity}`);
@@ -78,12 +81,13 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
-    wsRef.current = ws;
-    return () => ws.close();
+    return () => {
+      pusher.disconnect();
+    };
   }, [mutate]);
 
   return (
-    <RealtimeContext.Provider value={{ isConnected, connectionCount }}>
+    <RealtimeContext.Provider value={{ isConnected }}>
       {children}
     </RealtimeContext.Provider>
   );
@@ -130,14 +134,14 @@ export default function Layout({ children }) {
 **Verify**: Connection status indicator shows "connected" state.
 
 ## Done Criteria
-- [ ] `RealtimeProvider` connects to PartyKit on mount
-- [ ] `CONTENT_UPDATED` messages invalidate the correct SWR cache
-- [ ] `GUESTBOOK_NEW` messages trigger guestbook re-fetch
+- [ ] `RealtimeProvider` connects to Pusher on mount
+- [ ] `CONTENT_UPDATED` events invalidate the correct SWR cache
+- [ ] `GUESTBOOK_NEW` events trigger guestbook re-fetch
 - [ ] `useRealtimeStatus()` hook returns connection state
 - [ ] Provider integrated into `app/layout.tsx`
-- [ ] No memory leaks (WebSocket cleaned up on unmount)
+- [ ] No memory leaks (Pusher disconnects on unmount)
 - [ ] `plans/README.md` 024 → DONE
 
 ## STOP Conditions
-- `partysocket` package not compatible with Next.js 16 — try raw `WebSocket` API instead.
+- `pusher-js` package missing API keys — ensure they are set in `.env.local`.
 - SWR mutate doesn't trigger re-render — check that SWR provider wraps the component tree.
