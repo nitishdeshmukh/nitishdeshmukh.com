@@ -7,6 +7,7 @@ import { EntityDialog, FieldConfig } from "@/components/entity-dialog";
 import { createAssetSchema } from "@workspace/shared/schemas";
 import { getColumns, Asset } from "./columns";
 import { toast } from "sonner";
+import { FileUpload } from "@/components/file-upload";
 import { Button } from "@workspace/ui/components/button";
 import { Plus } from "lucide-react";
 import {
@@ -94,6 +95,8 @@ export default function AssetsPage() {
           <Plus className="mr-2 h-4 w-4" /> Add Metadata Manually
         </Button>
       </div>
+
+      <FileUpload onUploadSuccess={fetchData} />
 
       <DataTable 
         columns={getColumns(

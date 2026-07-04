@@ -27,6 +27,32 @@ export const getColumns = (
   onEdit: (item: Asset) => void,
   onDelete: (item: Asset) => void
 ): ColumnDef<Asset>[] => [
+  {
+    id: "preview",
+    header: "Preview",
+    cell: ({ row }) => {
+      const { mimeType, fileKey } = row.original;
+      const url = `/api/proxy/assets/stream/${fileKey}`;
+      
+      if (mimeType.startsWith("image/")) {
+        return (
+          <div className="h-10 w-10 relative overflow-hidden rounded border bg-muted flex items-center justify-center">
+            <img src={url} alt="Preview" className="object-cover h-full w-full" />
+          </div>
+        );
+      }
+      
+      if (mimeType.startsWith("audio/")) {
+        return (
+          <audio controls className="h-10 w-48 max-w-[200px]" preload="none">
+            <source src={url} type={mimeType} />
+          </audio>
+        );
+      }
+
+      return <div className="text-muted-foreground text-xs">No preview</div>;
+    }
+  },
   { accessorKey: "title", header: "Title" },
   { accessorKey: "artist", header: "Artist" },
   { accessorKey: "mimeType", header: "Type" },
