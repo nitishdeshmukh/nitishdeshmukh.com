@@ -5,7 +5,6 @@
     "moduleResolution": "Bundler",
     "outDir": "dist",
     "rootDir": "src",
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
