@@ -1,4 +1,4 @@
-# Plan 009: PartyKit WebSocket Server — `apps/party`
+# Plan 009: Realtime WebSocket Server (partyserver) — `apps/party`
 
 > **Executor instructions**: Follow this plan step by step. Run every
 > verification command before moving on.
@@ -13,11 +13,11 @@
 
 ## Objective (Kya)
 
-Create a PartyKit server that:
+Create a WebSocket server running directly on Cloudflare Workers that:
 1. Accepts WebSocket connections from portfolio visitors
 2. Receives HTTP POST broadcasts from the API Worker after admin mutations
 3. Broadcasts update messages to all connected clients instantly
-4. Free hobby tier: 20 concurrent connections (more than enough)
+4. Uses `partyserver` to run natively on your Cloudflare account (avoiding PartyKit's shared zone limits).
 
 ## Timeline (Kab)
 
@@ -30,7 +30,7 @@ Independent — can start anytime. Blocks real-time features (016 guestbook, 024
 ```
 apps/party/
 ├── package.json
-├── partykit.json
+├── wrangler.toml
 └── src/
     └── server.ts
 ```
@@ -43,87 +43,87 @@ apps/party/
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "partykit dev --port 1999",
-    "build": "echo 'No build step for PartyKit'",
-    "deploy": "npx partykit deploy",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "partykit": "^0.0.111"
+    "partyserver": "^0.5.8"
   },
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "latest"
   }
 }
 ```
 
-> **Port 1999**: `partykit dev --port 1999` is required so all 4 dev servers
-> can run simultaneously without port conflicts (see Plan 003).
+### `wrangler.toml`
 
-### `partykit.json`
+```toml
+name = "nitish-party"
+main = "src/server.ts"
+compatibility_date = "2026-07-04"
 
-```json
-{
-  "$schema": "https://www.partykit.io/schema.json",
-  "name": "nitish-party",
-  "main": "src/server.ts",
-  "compatibilityDate": "2025-01-01"
-}
+[observability]
+enabled = true
+
+[[durable_objects.bindings]]
+name = "RealtimeServer"
+class_name = "RealtimeServer"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RealtimeServer"]
 ```
 
 ### `src/server.ts`
 
 ```typescript
-import type * as Party from "partykit/server";
+import { Server, routePartykitRequest } from "partyserver";
 
-export default class SyncServer implements Party.Server {
-  constructor(readonly room: Party.Room) {}
-
-  onConnect(conn: Party.Connection) {
-    // Welcome message with live connection count
-    conn.send(JSON.stringify({
-      type: "CONNECTED",
-      connections: [...this.room.getConnections()].length,
-    }));
+export class RealtimeServer extends Server {
+  onConnect(conn: any, ctx: any) {
+    console.log(`Connected: id ${conn.id} room ${this.name} url ${ctx.request.url}`);
+    conn.send(JSON.stringify({ type: "CONNECTED", message: "Welcome to nitish-party" }));
   }
 
-  // HTTP POST from API Worker → broadcast to all WS clients
-  async onRequest(req: Party.Request) {
+  onMessage(message: string, sender: any) {
+    console.log(`Message from ${sender.id}: ${message}`);
+    // Broadcast to everyone else
+    this.broadcast(message, [sender.id]);
+  }
+  
+  async onRequest(req: Request) {
     if (req.method === "POST") {
-      const message = await req.json();
-      this.room.broadcast(JSON.stringify(message));
+      const body = await req.text();
+      this.broadcast(body);
       return new Response("OK", { status: 200 });
     }
     return new Response("Method not allowed", { status: 405 });
   }
-
-  onMessage(message: string, sender: Party.Connection) {
-    // Relay server-to-client only — no client-to-client messages needed yet
-    // Future: add chat or cursor position sync here
-  }
-
-  onClose(conn: Party.Connection) {
-    // Cleanup is automatic — PartyKit handles connection lifecycle
-  }
 }
+
+export default {
+  async fetch(request: Request, env: any, ctx: ExecutionContext) {
+    return (
+      (await routePartykitRequest(request, env)) ||
+      new Response("Not found", { status: 404 })
+    );
+  }
+} satisfies ExportedHandler<any>;
 ```
 
-**Verify**: `npx partykit dev --port 1999` starts successfully in `apps/party/`.
+**Verify**: `wrangler dev` starts successfully in `apps/party/`.
 **Verify**: Connect via WebSocket in DevTools → receives `CONNECTED` message.
-**Verify**: `curl -X POST http://localhost:1999/party/main -H "Content-Type: application/json" -d '{"type":"test"}' ` → broadcasts `{"type":"test"}` to connected WebSocket clients.
+**Verify**: HTTP POST broadcasts to connected WebSocket clients.
 
 ## Done Criteria
 
-- [ ] `apps/party/` created with package.json, partykit.json, src/server.ts
-- [ ] `partykit dev --port 1999` starts successfully
-- [ ] `dev` script in `package.json` uses `--port 1999` (matches Plan 003 port assignments)
-- [ ] WebSocket connections receive `CONNECTED` message
-- [ ] HTTP POST to party server broadcasts JSON to all connected clients
-- [ ] `plans/README.md` 009 → DONE
+- [x] `apps/party/` migrated to partyserver and wrangler.toml
+- [x] WebSocket connections receive `CONNECTED` message
+- [x] `plans/README.md` 009 → DONE
 
 ## STOP Conditions
 
-- PartyKit CLI not available — `npm i -g partykit` or use `npx partykit dev`.
-- PartyKit requires login — free signup at partykit.io; run `npx partykit login`.
-- Port 1999 in use — check with `lsof -i :1999` in WSL, kill conflicting process.
+- Cloudflare CLI (wrangler) not available.

@@ -17,7 +17,7 @@ Configure and test the full deployment pipeline for all 4 apps:
 1. API Worker → `wrangler deploy`
 2. Web (public) → `@opennextjs/cloudflare` build → Cloudflare Pages
 3. Admin → `@opennextjs/cloudflare` build → Cloudflare Pages
-4. PartyKit → `npx partykit deploy`
+4. PartyKit → `wrangler deploy` (via partyserver)
 
 ## Timeline (Kab)
 
@@ -64,9 +64,8 @@ Each app gets its own `deploy` script in `package.json`. The root uses
 **`apps/party/package.json`**:
 ```json
 "scripts": {
-  "dev": "partykit dev --port 1999",
-  "build": "echo 'no build step'",
-  "deploy": "npx partykit deploy",
+  "dev": "wrangler dev",
+  "deploy": "wrangler deploy",
   "typecheck": "tsc --noEmit"
 }
 ```
@@ -145,7 +144,7 @@ bun run deploy:api
 # Verify: https://api.nitishdeshmukh.com/api/health → {"status":"ok"}
 
 bun run deploy:party
-# Verify: connect WS to wss://nitish-party.partykit.dev → CONNECTED message
+# Verify: connect WS to wss://nitish-party.<username>.workers.dev → CONNECTED message
 
 bun run deploy:web
 # Verify: https://nitishdeshmukh.com → portfolio home page loads
@@ -159,7 +158,7 @@ bun run deploy:admin
 **For Web (`nitish-web`)** — in CF Pages → Settings → Environment Variables:
 ```
 NEXT_PUBLIC_API_URL    = https://api.nitishdeshmukh.com
-NEXT_PUBLIC_PARTYKIT_HOST = nitish-party.partykit.dev
+NEXT_PUBLIC_PARTYKIT_HOST = nitish-party.<your-username>.workers.dev
 ```
 
 **For Admin (`nitish-admin`)** — in CF Pages → Settings → Environment Variables:

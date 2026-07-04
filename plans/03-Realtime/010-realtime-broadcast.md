@@ -24,7 +24,7 @@ export async function notifyPartyKit(
   message: { type: string; entity: string; action: string }
 ) {
   try {
-    await fetch(`https://${host}/party/main`, {
+    await fetch(`https://${host}/parties/main`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...message, timestamp: Date.now() }),
