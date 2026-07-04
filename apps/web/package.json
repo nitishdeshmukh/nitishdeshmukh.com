@@ -13,6 +13,7 @@
     "deploy": "npx opennextjs-cloudflare build && npx wrangler pages deploy .open-next/assets --project-name=nitish-web --branch main"
   },
   "dependencies": {
+    "@workspace/shared": "workspace:*",
     "@workspace/ui": "workspace:*",
     "lucide-react": "^1.23.0",
     "motion": "^12.42.2",
