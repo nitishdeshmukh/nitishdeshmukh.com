@@ -98,7 +98,7 @@ plans/
 | 003 | [Turborepo Config](./01-Setup/003-turborepo-config.md) | Update workspace graph and ports | ✅ DONE | —          | DONE   |
 | 004 | [Hono Worker Scaffold](./02-Backend-Core/004-hono-worker-scaffold.md) | Initial API setup + middlewares | ✅ DONE | M | 001, 003 | DONE |
 | 005 | Public API routes + rate limiting   | 02-Backend   | P0       | L      | 004        | TODO   |
-| 006 | Admin API routes + R2 upload        | 02-Backend   | P0       | L      | 004        | TODO   |
+| 006 | [Admin API Routes](./02-Backend-Core/006-admin-api-routes.md) | Admin CRUD & Upload endpoints | ✅ DONE |
 | 007 | GitHub contributions proxy          | 02-Backend   | P1       | S      | 004        | TODO   |
 | 008 | SEO outputs (RSS, llms.txt)         | 02-Backend   | P2       | S      | 005        | TODO   |
 | 009 | PartyKit server (port 1999)         | 03-Realtime  | P1       | S      | —          | IN PROGRESS |
