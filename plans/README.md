@@ -119,7 +119,7 @@ plans/
 | 024 | [Real-time provider](./06-Integration/024-realtime-provider.md) | 06-Integ     | P1       | M      | 009        | ✅ DONE |
 | 025 | [Admin-to-web sync verification](./06-Integration/025-admin-to-web-sync.md) | 06-Integ     | P1       | M      | 010, 024   | ✅ DONE |
 | 026 | [Cloudflare setup (D1, R2, Pages)](./07-Deployment/026-cloudflare-setup.md) | 07-Deploy    | P0       | M      | —          | ✅ DONE |
-| 027 | Deploy pipeline (turbo --filter)    | 07-Deploy    | P1       | M      | 026        | IN PROGRESS |
+| 027 | [Deploy pipeline (turbo --filter)](./07-Deployment/027-deploy-pipeline.md) | 07-Deploy    | P1       | M      | 026        | ✅ DONE |
 | 028 | Seed + Lighthouse verify            | 07-Deploy    | P1       | M      | 027        | TODO   |
 | 029 | CI/CD pipeline (build→typecheck)    | 07-Deploy    | P1       | S      | 027        | TODO   |
 
