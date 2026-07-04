@@ -29,19 +29,20 @@ export function RealtimeProvider({ children }: { children: React.ReactNode }) {
     pusher.connection.bind("connected", () => setIsConnected(true));
     pusher.connection.bind("disconnected", () => setIsConnected(false));
 
-    const channel = pusher.subscribe("portfolio");
+    const channel = pusher.subscribe("nitish-portfolio");
 
-    channel.bind("update", (msg: WSMessage) => {
-      switch (msg.type) {
-        case "CONTENT_UPDATED":
-          // Invalidate SWR cache for the affected entity
-          mutate(`/api/${msg.entity}`);
-          mutate((key) => typeof key === "string" && key.startsWith(`/api/${msg.entity}`), undefined, { revalidate: true });
-          break;
-        case "GUESTBOOK_NEW":
-          mutate("/api/guestbook");
-          break;
+    channel.bind("CONTENT_UPDATED", (msg: WSMessage) => {
+      let endpoint = `/api/${msg.entity}`;
+      
+      // Map database entities to the endpoints used by SWR hooks
+      if (msg.entity === "blog_posts") {
+        endpoint = "/api/blog";
+      } else if (["roles", "social_links", "site_config"].includes(msg.entity)) {
+        endpoint = "/api/profile";
       }
+
+      mutate(endpoint);
+      mutate((key) => typeof key === "string" && key.startsWith(endpoint), undefined, { revalidate: true });
     });
 
     return () => {

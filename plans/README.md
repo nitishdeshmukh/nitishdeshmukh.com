@@ -117,7 +117,7 @@ plans/
 | 022 | [MDX editor (@mdx-js/mdx)](./05-Frontend-Admin/022-mdx-editor.md) | 05-Admin     | P1       | L      | 021        | ✅ DONE |
 | 023 | [Asset upload UI](./05-Frontend-Admin/023-asset-upload.md) | 05-Admin     | P1       | M      | 006, 020   | ✅ DONE |
 | 024 | [Real-time provider](./06-Integration/024-realtime-provider.md) | 06-Integ     | P1       | M      | 009        | ✅ DONE |
-| 025 | Admin-to-web sync verification      | 06-Integ     | P1       | M      | 010, 024   | TODO   |
+| 025 | [Admin-to-web sync verification](./06-Integration/025-admin-to-web-sync.md) | 06-Integ     | P1       | M      | 010, 024   | ✅ DONE |
 | 026 | Cloudflare setup (D1, R2, Pages)    | 07-Deploy    | P0       | M      | —          | TODO   |
 | 027 | Deploy pipeline (turbo --filter)    | 07-Deploy    | P1       | M      | 026        | IN PROGRESS |
 | 028 | Seed + Lighthouse verify            | 07-Deploy    | P1       | M      | 027        | TODO   |
