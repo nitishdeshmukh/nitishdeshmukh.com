@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { FloatingDock } from "@/components/navigation/floating-dock";
 import { MobileHeader } from "@/components/navigation/mobile-header";
 import { ScrollToTop } from "@/components/navigation/scroll-to-top";
+import { WeatherBackground } from "@/components/weather/weather-background";
 import { cn } from "@workspace/ui/lib/utils";
 
 const inter = Inter({
@@ -68,6 +69,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* Dynamic weather background */}
+          <WeatherBackground />
+
           {/* Mobile navigation */}
           <MobileHeader />
 

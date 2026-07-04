@@ -130,3 +130,34 @@
     cursor: pointer;
     }
 }
+
+/* ─── Weather particle keyframes ─────────────────────────────────────────── */
+@keyframes rain-fall {
+  from { transform: translateY(-20px) rotate(15deg); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.4; }
+  to   { transform: translateY(100vh) rotate(15deg); opacity: 0; }
+}
+
+@keyframes snow-fall {
+  0%   { transform: translateY(-10px) translateX(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  50%  { transform: translateY(50vh) translateX(20px); }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(100vh) translateX(-10px); opacity: 0; }
+}
+
+@keyframes star-twinkle {
+  from { opacity: 0.1; }
+  to   { opacity: 0.9; }
+}
+
+@keyframes orb-drift {
+  from { transform: translateY(0) translateX(0) scale(1); }
+  to   { transform: translateY(-30px) translateX(20px) scale(1.15); }
+}
+
+@keyframes cloud-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100vw + 400px)); }
+}

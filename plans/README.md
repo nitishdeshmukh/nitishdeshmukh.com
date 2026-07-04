@@ -104,7 +104,7 @@ plans/
 | 009 | PartyKit → Pusher (replaced) | 03-Realtime | P1 | S | — | ✅ DONE (Pusher) |
 | 010 | [Real-time broadcast flow](./03-Realtime/010-realtime-broadcast.md) | API → Pusher → Client | ✅ DONE |
 | 011 | [Layout + Floating Dock](./04-Frontend-Public/011-layout-navigation.md) | Root layout, dock, mobile nav | ✅ DONE |
-| 012 | Weather background                  | 04-Public    | P1       | L      | 011        | TODO   |
+| 012 | [Weather Background](./04-Frontend-Public/012-weather-background.md) | Dynamic CSS weather + geolocation | ✅ DONE |
 | 013 | Home page — all sections (motion)   | 04-Public    | P0       | XL     | 005, 011   | TODO   |
 | 014 | Blog (MDX + shiki)                  | 04-Public    | P0       | L      | 005, 011   | TODO   |
 | 015 | Projects archive                    | 04-Public    | P1       | M      | 005, 011   | TODO   |
