@@ -1,0 +1,69 @@
+"use client";
+
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@workspace/ui/components/button";
+import { MoreHorizontal, Edit, Trash } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
+
+export type StackItem = {
+  id: number;
+  name: string;
+  iconUrl: string;
+  category: string;
+  order: number;
+  createdAt: string;
+};
+
+export const getColumns = (
+  onEdit: (item: StackItem) => void,
+  onDelete: (item: StackItem) => void
+): ColumnDef<StackItem>[] => [
+  { accessorKey: "order", header: "Order" },
+  { accessorKey: "name", header: "Name" },
+  { accessorKey: "category", header: "Category" },
+  {
+    accessorKey: "iconUrl",
+    header: "Icon",
+    cell: ({ row }) => (
+      <img src={row.original.iconUrl} alt={row.original.name} className="h-6 w-6 object-contain" />
+    )
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const item = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => onEdit(item)}>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => onDelete(item)}
+              className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+            >
+              <Trash className="mr-2 h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
