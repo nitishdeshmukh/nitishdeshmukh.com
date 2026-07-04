@@ -27,6 +27,7 @@ const fields: FieldConfig[] = [
   { name: "coverUrl", label: "Cover URL", type: "url", placeholder: "https://..." },
   { name: "readingTime", label: "Reading Time (mins)", type: "number", placeholder: "5" },
   { name: "publishedAt", label: "Published At", type: "text", placeholder: "YYYY-MM-DDTHH:mm:ssZ" },
+  { name: "contentMdx", label: "Content", type: "mdx" },
 ];
 
 export default function BlogPage() {
@@ -49,6 +50,14 @@ export default function BlogPage() {
 
   const handleSubmit = async (values: any) => {
     if (!values.tags) values.tags = [];
+    
+    // Auto-calculate reading time if there's content and no explicit reading time
+    if (values.contentMdx && !values.readingTime) {
+      const text = values.contentMdx.replace(/[#*`>\[\]\(\)!]/g, "");
+      const words = text.split(/\s+/).filter(Boolean).length;
+      values.readingTime = Math.max(1, Math.ceil(words / 200));
+    }
+
     try {
       if (editingItem) {
         await apiClient(`/api/admin/blog/${editingItem.id}`, {

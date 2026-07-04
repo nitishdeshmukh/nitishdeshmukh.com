@@ -29,6 +29,7 @@ const fields: FieldConfig[] = [
   { name: "repoUrl", label: "Repo URL", type: "url", placeholder: "https://..." },
   { name: "featured", label: "Featured", type: "boolean" },
   { name: "order", label: "Order", type: "number", placeholder: "0" },
+  { name: "contentMdx", label: "Content", type: "mdx" },
 ];
 
 export default function ProjectsPage() {

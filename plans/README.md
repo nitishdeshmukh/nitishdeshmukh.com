@@ -114,7 +114,7 @@ plans/
 | 019 | [SEO metadata](./04-Frontend-Public/019-seo-metadata.md) | Sitemap, robots.txt, dynamic OG, JSON-LD schema | ✅ DONE |
 | 020 | [Admin layout + secure proxy](./05-Frontend-Admin/020-admin-layout.md) | Secure proxy pattern, shadcn sidebar layout | ✅ DONE |
 | 021 | [Admin CRUD pages](./05-Frontend-Admin/021-admin-crud-pages.md) | 05-Admin     | P0       | XL     | 006, 020   | ✅ DONE |
-| 022 | MDX editor (@mdx-js/mdx)            | 05-Admin     | P1       | L      | 021        | TODO   |
+| 022 | [MDX editor (@mdx-js/mdx)](./05-Frontend-Admin/022-mdx-editor.md) | 05-Admin     | P1       | L      | 021        | ✅ DONE |
 | 023 | Asset upload UI                     | 05-Admin     | P1       | M      | 006, 020   | TODO   |
 | 024 | Real-time provider                  | 06-Integ     | P1       | M      | 009        | TODO   |
 | 025 | Admin-to-web sync verification      | 06-Integ     | P1       | M      | 010, 024   | TODO   |

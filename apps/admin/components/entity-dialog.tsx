@@ -23,10 +23,12 @@ import { Button } from "@workspace/ui/components/button";
 import { Checkbox } from "@workspace/ui/components/checkbox";
 import { Loader2 } from "lucide-react";
 
+import { MDXEditor } from "./mdx-editor";
+
 export type FieldConfig = {
   name: string;
   label: string;
-  type: "text" | "number" | "url" | "date" | "boolean";
+  type: "text" | "number" | "url" | "date" | "boolean" | "mdx";
   placeholder?: string;
 };
 
@@ -74,9 +76,11 @@ export function EntityDialog({
     }
   };
 
+  const hasMdx = fields.some((f) => f.type === "mdx");
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className={`${hasMdx ? "sm:max-w-6xl w-[95vw]" : "sm:max-w-[425px]"} max-h-[90vh] overflow-y-auto`}>
         <DialogHeader>
           <DialogTitle>{defaultValues ? "Edit" : "Create"} {title}</DialogTitle>
         </DialogHeader>
@@ -102,6 +106,16 @@ export function EntityDialog({
                           {field.label}
                         </FormLabel>
                       </div>
+                    ) : field.type === "mdx" ? (
+                      <>
+                        <FormLabel>{field.label}</FormLabel>
+                        <FormControl>
+                          <MDXEditor
+                            value={formField.value ?? ""}
+                            onChange={formField.onChange}
+                          />
+                        </FormControl>
+                      </>
                     ) : (
                       <>
                         <FormLabel>{field.label}</FormLabel>
