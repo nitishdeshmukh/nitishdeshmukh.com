@@ -1,6 +1,6 @@
 name = "nitish-api"
 main = "src/index.ts"
-compatibility_date = "2025-01-01"
+compatibility_date = "2026-07-04"
 compatibility_flags = ["nodejs_compat"]
 account_id = "a9374218e0d83ce555b45637269582f1"
 
