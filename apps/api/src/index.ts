@@ -1,38 +1,18 @@
 import { Hono } from "hono";
-import { cors } from "hono/cors";
+import type { Env } from "./types";
+import { corsMiddleware } from "./middleware/cors";
+import { errorHandler } from "./middleware/error";
+import { healthRoute } from "./routes/health";
 
-export type Env = {
-  DB: D1Database;
-  ASSETS_BUCKET: R2Bucket;
-  API_SECRET: string;
-  ALLOWED_ORIGINS: string;
-  PARTYKIT_HOST: string;
-};
+const app = new Hono<Env>();
 
-const app = new Hono<{ Bindings: Env }>();
+// Global CORS middleware
+app.use("*", (c, next) => corsMiddleware(c.env.ALLOWED_ORIGINS)(c, next));
 
-// Global Error Handler
-app.onError((err, c) => {
-  console.error(`[Error] ${err.message}`);
-  return c.json({ error: "Internal Server Error" }, 500);
-});
+// Error handler
+app.onError(errorHandler);
 
-// Middleware: CORS
-app.use("*", async (c, next) => {
-  const origins = (c.env.ALLOWED_ORIGINS || "").split(",");
-  const corsMiddleware = cors({
-    origin: (origin) => {
-      if (!origin || origins.includes(origin)) return origin;
-      return null;
-    },
-    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization", "x-api-key"],
-    credentials: true,
-  });
-  return corsMiddleware(c, next);
-});
-
-// Health check
-app.get("/api/health", (c) => c.json({ status: "ok" }));
+// Routes
+app.route("/api/health", healthRoute);
 
 export default app;

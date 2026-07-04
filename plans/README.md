@@ -95,8 +95,8 @@ plans/
 |-----|-------------------------------------|--------------|----------|--------|------------|--------|
 | 001 | Database schema (Drizzle + D1)      | 01-Setup     | P0       | M      | —          | TODO   |
 | 002 | Shared types package                | 01-Setup     | P0       | S      | 001        | TODO   |
-| 003 | Turborepo config + port assignments | 01-Setup     | P0       | S      | —          | DONE   |
-| 004 | Hono worker scaffold                | 02-Backend   | P0       | M      | 001, 003   | IN PROGRESS |
+| 003 | [Turborepo Config](./01-Setup/003-turborepo-config.md) | Update workspace graph and ports | ✅ DONE | —          | DONE   |
+| 004 | [Hono Worker Scaffold](./02-Backend-Core/004-hono-worker-scaffold.md) | Initial API setup + middlewares | ✅ DONE | M | 001, 003 | DONE |
 | 005 | Public API routes + rate limiting   | 02-Backend   | P0       | L      | 004        | TODO   |
 | 006 | Admin API routes + R2 upload        | 02-Backend   | P0       | L      | 004        | TODO   |
 | 007 | GitHub contributions proxy          | 02-Backend   | P1       | S      | 004        | TODO   |
