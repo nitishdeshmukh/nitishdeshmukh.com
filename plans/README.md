@@ -108,7 +108,7 @@ plans/
 | 013 | [Home Page](./04-Frontend-Public/013-home-page.md) | Profile, graph, experience, stack | ✅ DONE |
 | 014 | [Blog (MDX + shiki)](./04-Frontend-Public/014-blog-mdx.md) | Index cards, tag filtering, MDX rendering, syntax highlighting | ✅ DONE |
 | 015 | [Projects archive](./04-Frontend-Public/015-projects-archive.md) | Grid, MDX detail page, URL tags | ✅ DONE |
-| 016 | Guestbook (real-time + motion)      | 04-Public    | P1       | M      | 005, 009   | TODO   |
+| 016 | [Guestbook (real-time + motion)](./04-Frontend-Public/016-guestbook.md) | Form, validation, SWR, Pusher hooks, motion animations | ✅ DONE |
 | 017 | Meeting page (Cal.com)              | 04-Public    | P2       | S      | 011        | TODO   |
 | 018 | Music player                        | 04-Public    | P2       | M      | 005, 011   | TODO   |
 | 019 | SEO metadata                        | 04-Public    | P1       | S      | 013, 014   | TODO   |
