@@ -1,0 +1,14 @@
+name = "nitish-party"
+main = "src/server.ts"
+compatibility_date = "2026-07-04"
+
+[observability]
+enabled = true
+
+[[durable_objects.bindings]]
+name = "RealtimeServer"
+class_name = "RealtimeServer"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RealtimeServer"]

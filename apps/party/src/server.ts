@@ -1,25 +1,32 @@
-import type * as Party from "partykit/server";
+import { Server, routePartykitRequest } from "partyserver";
 
-export default class RealtimeServer implements Party.Server {
-  constructor(public room: Party.Room) {}
-
-  onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
-    console.log(`Connected: id ${conn.id} room ${this.room.id} url ${ctx.request.url}`);
+export class RealtimeServer extends Server {
+  onConnect(conn: any, ctx: any) {
+    console.log(`Connected: id ${conn.id} room ${this.name} url ${ctx.request.url}`);
     conn.send(JSON.stringify({ type: "CONNECTED", message: "Welcome to nitish-party" }));
   }
 
-  onMessage(message: string, sender: Party.Connection) {
+  onMessage(message: string, sender: any) {
     console.log(`Message from ${sender.id}: ${message}`);
     // Broadcast to everyone else
-    this.room.broadcast(message, [sender.id]);
+    this.broadcast(message, [sender.id]);
   }
   
-  async onRequest(req: Party.Request) {
+  async onRequest(req: Request) {
     if (req.method === "POST") {
       const body = await req.text();
-      this.room.broadcast(body);
+      this.broadcast(body);
       return new Response("OK", { status: 200 });
     }
     return new Response("Method not allowed", { status: 405 });
   }
 }
+
+export default {
+  async fetch(request: Request, env: any, ctx: ExecutionContext) {
+    return (
+      (await routePartykitRequest(request, env)) ||
+      new Response("Not found", { status: 404 })
+    );
+  }
+} satisfies ExportedHandler<any>;

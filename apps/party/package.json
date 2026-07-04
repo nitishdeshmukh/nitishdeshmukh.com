@@ -3,16 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "partykit dev --port 1999",
-    "build": "echo 'PartyKit does not require a build step for turbo' && exit 0",
-    "deploy": "npx partykit deploy",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "partykit": "^0.0.104"
+    "partyserver": "^0.5.8"
   },
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "latest"
   }
 }
