@@ -99,8 +99,8 @@ plans/
 | 004 | [Hono Worker Scaffold](./02-Backend-Core/004-hono-worker-scaffold.md) | Initial API setup + middlewares | ✅ DONE | M | 001, 003 | DONE |
 | 005 | Public API routes + rate limiting   | 02-Backend   | P0       | L      | 004        | TODO   |
 | 006 | [Admin API Routes](./02-Backend-Core/006-admin-api-routes.md) | Admin CRUD & Upload endpoints | ✅ DONE |
-| 007 | GitHub contributions proxy          | 02-Backend   | P1       | S      | 004        | TODO   |
-| 008 | SEO outputs (RSS, llms.txt)         | 02-Backend   | P2       | S      | 005        | TODO   |
+| 007 | [GitHub Contributions Proxy](./02-Backend-Core/007-github-contributions-proxy.md) | Cached proxy for GitHub graph | ✅ DONE |
+| 008 | [SEO Outputs](./02-Backend-Core/008-seo-outputs.md) | RSS, llms.txt, llms-full.txt | ✅ DONE |
 | 009 | PartyKit server (port 1999)         | 03-Realtime  | P1       | S      | —          | IN PROGRESS |
 | 010 | Real-time broadcast flow            | 03-Realtime  | P1       | M      | 006, 009   | TODO   |
 | 011 | Layout + floating dock (motion)     | 04-Public    | P0       | M      | 003        | TODO   |

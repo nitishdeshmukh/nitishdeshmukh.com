@@ -11,6 +11,8 @@ import { projectsRoute } from "./routes/projects";
 import { blogRoute } from "./routes/blog";
 import { guestbookRoute } from "./routes/guestbook";
 import { assetsRoute } from "./routes/assets";
+import { githubRoute } from "./routes/github";
+import { seoRoute } from "./routes/seo";
 
 import { adminRolesRoute } from "./routes/admin/roles";
 import { adminSocialLinksRoute } from "./routes/admin/social-links";
@@ -41,6 +43,10 @@ app.route("/api/projects", projectsRoute);
 app.route("/api/blog", blogRoute);
 app.route("/api/guestbook", guestbookRoute);
 app.route("/api/assets", assetsRoute);
+app.route("/api/github", githubRoute);
+
+// SEO routes (mounted at root — /feed.xml, /llms.txt, /llms-full.txt)
+app.route("/", seoRoute);
 
 // Admin Routes
 app.route("/api/admin/roles", adminRolesRoute);
