@@ -6,7 +6,9 @@
     "NEXT_PUBLIC_PUSHER_KEY",
     "NEXT_PUBLIC_PUSHER_CLUSTER",
     "API_URL",
-    "API_SECRET"
+    "API_SECRET",
+    "CLOUDFLARE_API_TOKEN",
+    "CLOUDFLARE_ACCOUNT_ID"
   ],
   "tasks": {
     "build": {
