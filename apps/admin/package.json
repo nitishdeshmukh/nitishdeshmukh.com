@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "deploy": "npx opennextjs-cloudflare build && npx wrangler pages deploy .open-next/assets --project-name=nitish-admin --branch main"
+    "deploy": "bun x opennextjs-cloudflare build && bun x wrangler pages deploy .open-next/assets --project-name=nitish-admin --branch main"
   },
   "dependencies": {
     "next": "16.2.10",
