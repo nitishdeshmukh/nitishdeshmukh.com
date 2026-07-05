@@ -5,6 +5,7 @@ import { ExperienceTimeline } from "@/components/home/experience-timeline";
 import { EducationSection } from "@/components/home/education";
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { RecentPosts } from "@/components/home/recent-posts";
+import Script from "next/script";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8787";
 
@@ -53,7 +54,8 @@ export default async function HomePage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6">
-      <script
+      <Script
+        id="json-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />

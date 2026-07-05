@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 
