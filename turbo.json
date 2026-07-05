@@ -1,6 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "NEXT_PUBLIC_API_URL",
+    "NEXT_PUBLIC_PUSHER_KEY",
+    "NEXT_PUBLIC_PUSHER_CLUSTER",
+    "API_URL",
+    "API_SECRET"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

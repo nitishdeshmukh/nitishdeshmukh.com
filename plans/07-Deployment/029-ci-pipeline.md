@@ -70,7 +70,6 @@ jobs:
     env:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      PARTYKIT_TOKEN: ${{ secrets.PARTYKIT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -83,10 +82,6 @@ jobs:
       - name: Deploy API
         working-directory: apps/api
         run: bun run deploy  # uses root wrangler@^4 via workspace
-
-      - name: Deploy PartyKit
-        working-directory: apps/party
-        run: npx partykit deploy
 
       - name: Deploy Web
         working-directory: apps/web
