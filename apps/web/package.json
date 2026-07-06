@@ -10,7 +10,7 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "deploy": "bun x opennextjs-cloudflare build && bun x wrangler deploy"
+    "deploy": "bun x opennextjs-cloudflare build && bun x wrangler deploy --minify"
   },
   "dependencies": {
     "@workspace/shared": "workspace:*",
