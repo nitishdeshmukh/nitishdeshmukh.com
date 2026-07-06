@@ -10,7 +10,7 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "deploy": "bun x opennextjs-cloudflare build && bun x wrangler pages deploy .open-next/assets --project-name=nitish-web --branch main"
+    "deploy": "bun x opennextjs-cloudflare build && cp .open-next/worker.js .open-next/assets/_worker.js && bun x wrangler pages deploy .open-next/assets --project-name=nitish-web --branch main"
   },
   "dependencies": {
     "@workspace/shared": "workspace:*",
