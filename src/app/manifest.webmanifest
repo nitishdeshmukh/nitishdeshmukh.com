@@ -1,0 +1,61 @@
+{
+  "short_name": "Nitish",
+  "name": "Nitish Deshmukh",
+  "description": "Turning data into stories through code.",
+  "icons": [
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/pwa-icons/icon-vector.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/pwa-icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/pwa-icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/pwa-icons/icon-512x512-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "/?utm_source=pwa",
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/screenshots/screenshot-mobile-dark.webp?t=1778602757",
+      "type": "image/webp",
+      "sizes": "440x956",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/screenshots/screenshot-mobile-light.webp?t=1778602757",
+      "type": "image/webp",
+      "sizes": "440x956",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/screenshots/screenshot-desktop-dark.webp?t=1778602757",
+      "type": "image/webp",
+      "sizes": "1512x982",
+      "form_factor": "wide"
+    },
+    {
+      "src": "https://assets.nitishdeshmukh.com/images/screenshots/screenshot-desktop-light.webp?t=1778602757",
+      "type": "image/webp",
+      "sizes": "1512x982",
+      "form_factor": "wide"
+    }
+  ]
+}

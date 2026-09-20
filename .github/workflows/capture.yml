@@ -1,0 +1,68 @@
+name: Capture & Sync Screenshots
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Target URL to capture"
+        required: false
+        default: "https://nitishdeshmukh.com"
+
+concurrency:
+  group: capture-screenshots-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  capture-and-sync:
+    # Runs only on manual workflow trigger OR when Vercel production deployment succeeds
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment_status.environment == 'Production')
+    runs-on: ubuntu-latest
+
+    # Keep the Puppeteer browser cache inside the workspace so every run gets a
+    # clean, self-contained download instead of the pre-seeded/stale
+    # ~/.cache/puppeteer on the runner (the source of the "folder exists but the
+    # executable is missing" error).
+    env:
+      PUPPETEER_CACHE_DIR: ${{ github.workspace }}/.puppeteer-cache
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      # NOTE: If .nvmrc points at Node 26, pin to Node 24 LTS instead.
+      # @puppeteer/browsers' old extract-zip@2.0.1 dependency silently truncates
+      # zip extraction on Node 26, leaving a stub folder with no chrome binary
+      # (puppeteer#14957). Pinning Node <= 25 avoids that until you upgrade.
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Chrome for Puppeteer
+        run: |
+          rm -rf "$PUPPETEER_CACHE_DIR"
+          bunx puppeteer browsers install chrome
+
+      - name: Capture Screenshots
+        env:
+          NEXT_PUBLIC_APP_URL: ${{ inputs.url || 'https://nitishdeshmukh.com' }}
+        run: bun run capture --force
+
+      - name: Sync to Cloudflare R2
+        env:
+          R2_S3_API: ${{ secrets.R2_S3_API }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: bun run capture:sync
+        
