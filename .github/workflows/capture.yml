@@ -41,7 +41,7 @@ jobs:
       # zip extraction on Node 26, leaving a stub folder with no chrome binary
       # (puppeteer#14957). Pinning Node <= 25 avoids that until you upgrade.
       - name: Install Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
 
